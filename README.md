@@ -10,7 +10,7 @@ Before the 360, every computer was an island. Programs written for one machine w
 
 IBM bet the company—literally, $5 billion in 1960s dollars—on a radical idea: a family of compatible computers. The smallest 360 could run the same programs as the largest. A business could start small and grow without rewriting a single line of code.
 
-They were right. Within two years, IBM had orders for over 1,000 systems. Within a decade, the 360 architecture dominated business computing worldwide. Today, sixty years later, the direct descendants of the 360, the z/Series mainframes—still process the majority of the world's corporate data.
+They were right. Within two years, IBM had orders for over 1,000 systems. Within a decade, the 360 architecture dominated business computing worldwide. Today, sixty years later, the direct descendants of the 360, the z/Series mainframes, still process the majority of the world's corporate data.
 
 The 360 didn't just change computing. It changed what was possible. Banks could offer instant account enquiries. Airlines could confirm reservations in seconds. Governments could process millions of tax returns. Hospitals could track patient records across departments.
 
