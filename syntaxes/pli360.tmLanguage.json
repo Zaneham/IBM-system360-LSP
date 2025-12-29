@@ -1,6 +1,7 @@
 {
   "name": "IBM System/360 PL/I F",
   "scopeName": "source.pli360",
+  "comment": "Based on IBM C28-6571-1: PL/I Language Specifications (July 1965)",
   "patterns": [
     { "include": "#comments" },
     { "include": "#strings" },
@@ -67,7 +68,7 @@
         },
         {
           "name": "keyword.control.procedure.pli360",
-          "match": "\\b(PROC|PROCEDURE|ENTRY|BEGIN|END|RETURN|CALL|RECURSIVE|REENTRANT|OPTIONS|MAIN)\\b"
+          "match": "\\b(PROC|PROCEDURE|ENTRY|BEGIN|END|RETURN|CALL|RECURSIVE|OPTIONS|MAIN)\\b"
         }
       ]
     },
@@ -75,15 +76,15 @@
       "patterns": [
         {
           "name": "keyword.control.flow.pli360",
-          "match": "\\b(IF|THEN|ELSE|DO|END|WHILE|UNTIL|TO|BY|REPEAT|LEAVE|ITERATE|GO|GOTO|SELECT|WHEN|OTHERWISE|STOP)\\b"
+          "match": "\\b(IF|THEN|ELSE|DO|END|WHILE|UNTIL|TO|BY|REPEAT|LEAVE|GO|GOTO|SELECT|WHEN|OTHERWISE|STOP)\\b"
         },
         {
           "name": "keyword.control.io.pli360",
-          "match": "\\b(GET|PUT|READ|WRITE|REWRITE|DELETE|LOCATE|OPEN|CLOSE|DISPLAY|WAIT)\\b"
+          "match": "\\b(GET|PUT|READ|WRITE|LOCATE|DELETE|OPEN|CLOSE|DISPLAY|WAIT)\\b"
         },
         {
           "name": "keyword.other.allocation.pli360",
-          "match": "\\b(ALLOCATE|FREE|SAVE|RESTORE)\\b"
+          "match": "\\b(ALLOCATE|FREE)\\b"
         },
         {
           "name": "keyword.other.exception.pli360",
@@ -91,11 +92,11 @@
         },
         {
           "name": "keyword.other.io-options.pli360",
-          "match": "\\b(FILE|DATA|LIST|EDIT|STRING|SKIP|PAGE|LINE|COLUMN|COPY|PRINT|INPUT|OUTPUT|UPDATE|STREAM|RECORD|SEQUENTIAL|DIRECT|KEYED|TRANSIENT|BUFFERED|UNBUFFERED|ENVIRONMENT|ENV|TITLE|LINESIZE|PAGESIZE)\\b"
+          "match": "\\b(FILE|DATA|LIST|EDIT|STRING|SKIP|PAGE|LINE|COLUMN|COPY|PRINT|INPUT|OUTPUT|UPDATE|STREAM|RECORD|SEQUENTIAL|DIRECT|ENVIRONMENT|ENV|TITLE)\\b"
         },
         {
-          "name": "keyword.other.sort.pli360",
-          "match": "\\b(SORT|GIVING|USING|ASCENDING|DESCENDING|COLLATE|RECORD|DUPLICATES)\\b"
+          "name": "keyword.other.task.pli360",
+          "match": "\\b(TASK|EVENT|PRIORITY|COMPLETION)\\b"
         }
       ]
     },
@@ -107,7 +108,7 @@
         },
         {
           "name": "keyword.other.parameter.pli360",
-          "match": "\\b(RETURNS|VALUE|BYADDR|BYVALUE)\\b"
+          "match": "\\b(RETURNS|VALUE)\\b"
         }
       ]
     },
@@ -119,7 +120,7 @@
         },
         {
           "name": "storage.type.string.pli360",
-          "match": "\\b(CHARACTER|CHAR|BIT|VARYING|VAR|GRAPHIC|WIDECHAR|PICTURE|PIC)\\b"
+          "match": "\\b(CHARACTER|CHAR|BIT|VARYING|VAR|GRAPHIC|PICTURE|PIC)\\b"
         },
         {
           "name": "storage.type.other.pli360",
@@ -131,11 +132,11 @@
         },
         {
           "name": "storage.modifier.structure.pli360",
-          "match": "\\b(DIMENSION|DIM|INITIAL|INIT|POSITION|POS|ALIGNED|UNALIGNED|LIKE|REFER|UNION)\\b"
+          "match": "\\b(DIMENSION|DIM|INITIAL|INIT|POSITION|POS|ALIGNED|LIKE|REFER|UNION)\\b"
         },
         {
           "name": "storage.modifier.other.pli360",
-          "match": "\\b(ABNORMAL|ABNL|NORMAL|CONNECTED|NONCONNECTED|SECONDARY|GENERIC|IRREDUCIBLE|REDUCIBLE|USES|SETS|NONASGN|ASSIGNABLE)\\b"
+          "match": "\\b(ABNORMAL|ABNL|NORMAL|SECONDARY|GENERIC|USES|SETS)\\b"
         }
       ]
     },
@@ -143,11 +144,11 @@
       "patterns": [
         {
           "name": "support.function.math.pli360",
-          "match": "\\b(ABS|ADD|ATAN|ATAND|ATANH|CEIL|COS|COSD|COSH|ERF|ERFC|EXP|FLOOR|LOG|LOG10|LOG2|MAX|MIN|MOD|MULTIPLY|ROUND|SIGN|SIN|SIND|SINH|SQRT|TAN|TAND|TANH|TRUNC)\\b"
+          "match": "\\b(ABS|ADD|ATAN|ATAND|ATANH|CEIL|COS|COSD|COSH|ERF|ERFC|EXP|FLOOR|LOG|LOG10|LOG2|MAX|MIN|MOD|MULTIPLY|SIGN|SIN|SIND|SINH|SQRT|TAN|TAND|TANH|TRUNC)\\b"
         },
         {
           "name": "support.function.string.pli360",
-          "match": "\\b(BIT|BOOL|CHAR|COLLATE|COPY|DATE|DATETIME|DATETIM|HIGH|INDEX|LENGTH|LOW|REPEAT|REVERSE|SEARCH|STRING|SUBSTR|TIME|TRANSLATE|TRIM|UNSPEC|VERIFY)\\b"
+          "match": "\\b(BIT|BOOL|CHAR|DATE|HIGH|INDEX|LENGTH|LOW|STRING|SUBSTR|TIME|UNSPEC)\\b"
         },
         {
           "name": "support.function.array.pli360",
@@ -155,11 +156,11 @@
         },
         {
           "name": "support.function.storage.pli360",
-          "match": "\\b(ADDR|ALLOCATION|BINARYVALUE|BINVALUE|CURRENTSIZE|CURRENTSTORAGE|EMPTY|ENTRYADDR|NULL|OFFSET|POINTER|POINTERADD|POINTERVALUE|SIZE|STORAGE|SYSNULL)\\b"
+          "match": "\\b(ADDR|ALLOCATION|EMPTY|NULL|OFFSET|POINTER|SIZE|STORAGE)\\b"
         },
         {
           "name": "support.function.condition.pli360",
-          "match": "\\b(DATAFIELD|ONCHAR|ONCODE|ONCONDID|ONCOUNT|ONFILE|ONKEY|ONLOC|ONSOURCE)\\b"
+          "match": "\\b(ONCHAR|ONCODE|ONFILE|ONKEY|ONLOC|ONSOURCE)\\b"
         },
         {
           "name": "support.function.conversion.pli360",
@@ -171,7 +172,7 @@
       "patterns": [
         {
           "name": "constant.language.condition.pli360",
-          "match": "\\b(AREA|ATTENTION|CONDITION|CONVERSION|CONV|ENDFILE|ENDPAGE|ERROR|FINISH|FIXEDOVERFLOW|FOFL|KEY|NAME|OVERFLOW|OFL|RECORD|SIZE|STRINGRANGE|STRINGSIZE|SUBSCRIPTRANGE|SUBRG|TRANSMIT|UNDEFINEDFILE|UNDERFLOW|UFL|ZERODIVIDE|ZDIV)\\b"
+          "match": "\\b(AREA|ATTENTION|CONDITION|CONVERSION|CONV|ENDFILE|ERROR|FINISH|FIXEDOVERFLOW|FOFL|KEY|NAME|OVERFLOW|OFL|RECORD|SIZE|STRINGRANGE|SUBSCRIPTRANGE|SUBRG|TRANSMIT|UNDEFINEDFILE|UNDERFLOW|UFL|ZERODIVIDE|ZDIV)\\b"
         }
       ]
     },

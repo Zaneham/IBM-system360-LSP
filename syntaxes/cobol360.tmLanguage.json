@@ -1,6 +1,7 @@
 {
   "name": "IBM System/360 COBOL F",
   "scopeName": "source.cobol360",
+  "comment": "Based on IBM C28-6516-8: OS COBOL Language (November 1968, Ninth Edition)",
   "patterns": [
     { "include": "#comments" },
     { "include": "#sequence-area" },
@@ -13,7 +14,6 @@
     { "include": "#picture-clause" },
     { "include": "#verbs" },
     { "include": "#keywords" },
-    { "include": "#intrinsic-functions" },
     { "include": "#special-registers" },
     { "include": "#operators" },
     { "include": "#identifiers" }
@@ -55,11 +55,11 @@
       "patterns": [
         {
           "name": "keyword.control.section.cobol360",
-          "match": "\\b(CONFIGURATION|INPUT-OUTPUT|FILE|WORKING-STORAGE|LINKAGE|REPORT|SCREEN)\\s+SECTION\\b"
+          "match": "\\b(CONFIGURATION|INPUT-OUTPUT|FILE|WORKING-STORAGE|LINKAGE|REPORT)\\s+SECTION\\b"
         },
         {
           "name": "keyword.control.section.cobol360",
-          "match": "\\b(FILE-CONTROL|I-O-CONTROL|SPECIAL-NAMES)\\b"
+          "match": "\\b(FILE-CONTROL|I-O-CONTROL|SPECIAL-NAMES|DECLARATIVES)\\b"
         }
       ]
     },
@@ -113,7 +113,7 @@
       "patterns": [
         {
           "name": "constant.numeric.level.cobol360",
-          "match": "^.{6}\\s+(01|1|66|77|88)\\b"
+          "match": "^.{6}\\s+(01|1|77|88)\\b"
         },
         {
           "name": "constant.numeric.level.cobol360",
@@ -136,7 +136,7 @@
       "patterns": [
         {
           "name": "keyword.control.verb.io.cobol360",
-          "match": "\\b(ACCEPT|CLOSE|DELETE|DISPLAY|EXHIBIT|OPEN|READ|REWRITE|WRITE|USE)\\b"
+          "match": "\\b(ACCEPT|CLOSE|DISPLAY|EXHIBIT|OPEN|READ|REWRITE|WRITE|USE)\\b"
         },
         {
           "name": "keyword.control.verb.arithmetic.cobol360",
@@ -144,19 +144,23 @@
         },
         {
           "name": "keyword.control.verb.data.cobol360",
-          "match": "\\b(EXAMINE|INSPECT|MOVE|SET|STRING|TRANSFORM|UNSTRING)\\b"
+          "match": "\\b(EXAMINE|MOVE|SET|TRANSFORM)\\b"
         },
         {
           "name": "keyword.control.verb.flow.cobol360",
-          "match": "\\b(ALTER|CALL|ENTER|EXIT|GO|GOTO|IF|ELSE|PERFORM|STOP|THEN)\\b"
+          "match": "\\b(ALTER|CALL|ENTER|EXIT|GO|IF|ELSE|PERFORM|STOP|THEN)\\b"
         },
         {
           "name": "keyword.control.verb.procedure.cobol360",
-          "match": "\\b(COPY|NOTE|REPLACE|SEARCH|SORT)\\b"
+          "match": "\\b(COPY|NOTE|SEARCH|SORT)\\b"
         },
         {
           "name": "keyword.control.verb.report.cobol360",
-          "match": "\\b(GENERATE|INITIATE|TERMINATE|SUPPRESS)\\b"
+          "match": "\\b(GENERATE|INITIATE|TERMINATE)\\b"
+        },
+        {
+          "name": "keyword.control.verb.sort.cobol360",
+          "match": "\\b(RELEASE|RETURN)\\b"
         }
       ]
     },
@@ -168,63 +172,59 @@
         },
         {
           "name": "keyword.other.file.cobol360",
-          "match": "\\b(FD|SD|RD|SELECT|ASSIGN|ORGANIZATION|ACCESS|SEQUENTIAL|RANDOM|DYNAMIC|INDEXED|RELATIVE|DIRECT)\\b"
+          "match": "\\b(FD|SD|RD|SELECT|ASSIGN|ORGANIZATION|ACCESS|SEQUENTIAL|RANDOM|INDEXED|RELATIVE|DIRECT|DIRECT-ACCESS)\\b"
         },
         {
           "name": "keyword.other.data.cobol360",
-          "match": "\\b(BLOCK|CONTAINS|RECORD|RECORDS|LABEL|STANDARD|OMITTED|RECORDING|MODE|VALUE|VALUES|OF|IN|TO|FROM|BY|THRU|THROUGH|TIMES|UNTIL|VARYING|AFTER|BEFORE)\\b"
+          "match": "\\b(BLOCK|CONTAINS|RECORD|RECORDS|LABEL|STANDARD|OMITTED|RECORDING|MODE|VALUE|OF|IN|TO|FROM|BY|THRU|THROUGH|TIMES|UNTIL|VARYING|AFTER|BEFORE|ADVANCING|ARE|IS)\\b"
         },
         {
           "name": "keyword.other.clause.cobol360",
-          "match": "\\b(ASCENDING|DESCENDING|KEY|DEPENDING|ON|SIZE|ERROR|OVERFLOW|AT|END|NOT|WITH|POINTER|DELIMITER|COUNT|ALL|LEADING|TRAILING|FIRST)\\b"
+          "match": "\\b(ASCENDING|DESCENDING|KEY|DEPENDING|ON|SIZE|ERROR|AT|END|NOT|WITH|ALL|LEADING|FIRST|JUSTIFIED|RIGHT|BLANK|FILLER)\\b"
         },
         {
           "name": "keyword.other.occurs.cobol360",
-          "match": "\\b(OCCURS|REDEFINES|RENAMES|COPY|REPLACING)\\b"
+          "match": "\\b(OCCURS|REDEFINES|COPY|REPLACING)\\b"
         },
         {
           "name": "storage.type.usage.cobol360",
-          "match": "\\b(USAGE|COMPUTATIONAL|COMPUTATIONAL-1|COMPUTATIONAL-2|COMPUTATIONAL-3|COMP|COMP-1|COMP-2|COMP-3|BINARY|PACKED-DECIMAL|DISPLAY|DISPLAY-ST|INDEX)\\b"
+          "match": "\\b(USAGE|COMPUTATIONAL|COMPUTATIONAL-1|COMPUTATIONAL-2|COMPUTATIONAL-3|COMP|COMP-1|COMP-2|COMP-3|DISPLAY|DISPLAY-ST|INDEX)\\b"
         },
         {
           "name": "storage.type.class.cobol360",
-          "match": "\\b(ALPHABETIC|ALPHANUMERIC|NUMERIC|NUMERIC-EDITED|ALPHANUMERIC-EDITED)\\b"
+          "match": "\\b(ALPHABETIC|NUMERIC)\\b"
         },
         {
           "name": "keyword.other.procedure.cobol360",
-          "match": "\\b(GIVING|ROUNDED|REMAINDER|INTO|CORRESPONDING|CORR|TALLYING|REPLACING|CONVERTING|DELIMITED)\\b"
+          "match": "\\b(GIVING|ROUNDED|INTO|CORRESPONDING|TALLYING)\\b"
         },
         {
           "name": "keyword.other.condition.cobol360",
-          "match": "\\b(WHEN|OTHER|EQUAL|EQUALS|GREATER|LESS|THAN|POSITIVE|NEGATIVE|ZERO|ZEROS|ZEROES|SPACE|SPACES|HIGH-VALUE|HIGH-VALUES|LOW-VALUE|LOW-VALUES|QUOTE|QUOTES)\\b"
+          "match": "\\b(WHEN|OTHERWISE|EQUAL|GREATER|LESS|THAN|POSITIVE|NEGATIVE|ZERO|ZEROS|ZEROES|SPACE|SPACES|HIGH-VALUE|HIGH-VALUES|LOW-VALUE|LOW-VALUES|QUOTE|QUOTES)\\b"
         },
         {
           "name": "keyword.other.file-status.cobol360",
-          "match": "\\b(FILE|STATUS|INVALID|INPUT|OUTPUT|I-O|EXTEND|OPTIONAL)\\b"
+          "match": "\\b(FILE|INVALID|INPUT|OUTPUT|I-O)\\b"
         },
         {
           "name": "keyword.other.linkage.cobol360",
-          "match": "\\b(USING|RETURNING|EXTERNAL|GLOBAL)\\b"
+          "match": "\\b(USING|ENTRY)\\b"
         },
         {
           "name": "keyword.other.report.cobol360",
-          "match": "\\b(REPORT|REPORTS|CONTROL|CONTROLS|PAGE|LIMIT|LIMITS|HEADING|FIRST|LAST|DETAIL|FOOTING|LINE|LINES|COLUMN|COLUMNS|SOURCE|SUM|GROUP|INDICATE|NEXT|RESET|TYPE|CF|CH|DE|PF|PH|RF|RH|FINAL)\\b"
+          "match": "\\b(REPORT|REPORTS|CONTROL|CONTROLS|PAGE|LIMIT|LIMITS|HEADING|FIRST|LAST|DETAIL|FOOTING|LINE|LINES|COLUMN|SOURCE|SUM|GROUP|INDICATE|NEXT|RESET|TYPE|CF|CH|DE|PF|PH|RF|RH|FINAL|REPORTING|CODE)\\b"
         },
         {
           "name": "keyword.other.special.cobol360",
-          "match": "\\b(APPLY|SAME|AREA|AREAS|RESERVE|ALTERNATE|SYMBOLIC|ACTUAL|TRACK-AREA|TRACKS|FILE-LIMIT|RERUN|EVERY|UNIT|REEL|LOCK|HOLD|RELEASE|RETURN|PROCESSING)\\b"
+          "match": "\\b(APPLY|SAME|AREA|AREAS|RESERVE|ALTERNATE|SYMBOLIC|ACTUAL|TRACK-AREA|TRACKS|FILE-LIMIT|RERUN|EVERY|UNIT|UNITS|UNIT-RECORD|REEL|LOCK|HOLD|PROCESSING|RUN|CONSOLE|FORM-OVERFLOW|PRINT-SWITCH|UPON)\\b"
+        },
+        {
+          "name": "keyword.other.environment.cobol360",
+          "match": "\\b(COBOL|ID|COMMA|DECIMAL-POINT|CURRENCY|SENTENCE|CHARACTERS|CHANGED|NAMED|NO|PLUS|PROCEED|PROCESS|READY|RESTRICTED|REVERSED|REWIND|SYSIN|SYSOUT|SYSPUNCH|TRACE|TRY|UTILITY|WRITE-ONLY|INCLUDE|FOR)\\b"
         },
         {
           "name": "constant.language.boolean.cobol360",
-          "match": "\\b(TRUE|FALSE|ON|OFF)\\b"
-        }
-      ]
-    },
-    "intrinsic-functions": {
-      "patterns": [
-        {
-          "name": "support.function.builtin.cobol360",
-          "match": "\\b(CURRENT-DATE|WHEN-COMPILED)\\b"
+          "match": "\\b(ON|OFF)\\b"
         }
       ]
     },
@@ -232,7 +232,7 @@
       "patterns": [
         {
           "name": "variable.language.special.cobol360",
-          "match": "\\b(TALLY|DEBUG-ITEM|DEBUG-LINE|DEBUG-NAME|DEBUG-SUB-1|DEBUG-SUB-2|DEBUG-SUB-3|DEBUG-CONTENTS|LINAGE-COUNTER|LINE-COUNTER|PAGE-COUNTER|RETURN-CODE)\\b"
+          "match": "\\b(TALLY|LINE-COUNTER|PAGE-COUNTER)\\b"
         }
       ]
     },

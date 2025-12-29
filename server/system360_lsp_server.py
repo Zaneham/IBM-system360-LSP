@@ -20,12 +20,13 @@ import logging
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, field
 
-# COBOL F 1968 Reserved Words (from C28-6516-8 Appendix A)
+# COBOL F 1968 Reserved Words (from C28-6516-8 Appendix A, page 139)
+# Verified against actual IBM documentation
 RESERVED_WORDS = {
     # Division and Section Keywords
     'IDENTIFICATION', 'ENVIRONMENT', 'DATA', 'PROCEDURE', 'DIVISION', 'SECTION',
     'CONFIGURATION', 'INPUT-OUTPUT', 'FILE', 'WORKING-STORAGE', 'LINKAGE',
-    'FILE-CONTROL', 'I-O-CONTROL', 'SPECIAL-NAMES', 'REPORT', 'SCREEN',
+    'FILE-CONTROL', 'I-O-CONTROL', 'SPECIAL-NAMES', 'REPORT', 'DECLARATIVES',
 
     # Identification Division Paragraphs
     'PROGRAM-ID', 'AUTHOR', 'INSTALLATION', 'DATE-WRITTEN', 'DATE-COMPILED',
@@ -34,90 +35,79 @@ RESERVED_WORDS = {
     # Environment Division
     'SOURCE-COMPUTER', 'OBJECT-COMPUTER', 'MEMORY', 'SIZE', 'WORDS',
     'MODULES', 'SEGMENT-LIMIT', 'CURRENCY', 'SIGN', 'DECIMAL-POINT',
-    'CONSOLE', 'SWITCH', 'ON', 'OFF', 'STATUS',
+    'CONSOLE', 'SWITCH', 'ON', 'OFF',
 
     # File Control
     'SELECT', 'ASSIGN', 'RESERVE', 'ORGANIZATION', 'SEQUENTIAL', 'INDEXED',
-    'RELATIVE', 'DIRECT', 'ACCESS', 'RANDOM', 'DYNAMIC', 'SYMBOLIC', 'KEY',
+    'RELATIVE', 'DIRECT', 'DIRECT-ACCESS', 'ACCESS', 'RANDOM', 'SYMBOLIC', 'KEY',
     'ACTUAL', 'RECORD', 'TRACK-AREA', 'TRACKS', 'FILE-LIMIT', 'ALTERNATE',
-    'PROCESSING', 'MODE', 'DUPLICATES',
+    'PROCESSING', 'MODE',
 
     # I-O Control
     'SAME', 'AREA', 'AREAS', 'RERUN', 'EVERY', 'RECORDS', 'END', 'OF', 'REEL',
-    'UNIT', 'APPLY', 'WRITE-ONLY', 'CORE-INDEX', 'RECORD-OVERFLOW',
+    'UNIT', 'UNITS', 'UNIT-RECORD', 'APPLY', 'WRITE-ONLY',
 
     # Data Division
     'FD', 'SD', 'RD', 'BLOCK', 'CONTAINS', 'CHARACTERS', 'LABEL', 'STANDARD',
-    'OMITTED', 'RECORDING', 'VALUE', 'VALUES', 'CLAUSE', 'DATA', 'RECORD',
-    'RECORDS', 'LINAGE', 'LINES', 'WITH', 'FOOTING', 'AT', 'TOP', 'BOTTOM',
-    'CODE-SET', 'REPORT', 'REPORTS',
+    'OMITTED', 'RECORDING', 'VALUE', 'DATA', 'RECORD', 'RECORDS', 'LINES',
+    'WITH', 'FOOTING', 'AT', 'REPORT', 'REPORTS', 'CODE',
 
     # Record Description
-    'BLANK', 'WHEN', 'ZERO', 'ZEROES', 'ZEROS', 'JUSTIFIED', 'JUST', 'RIGHT',
+    'BLANK', 'WHEN', 'ZERO', 'ZEROES', 'ZEROS', 'JUSTIFIED', 'RIGHT',
     'OCCURS', 'TIMES', 'TO', 'DEPENDING', 'ASCENDING', 'DESCENDING', 'INDEXED',
-    'PICTURE', 'PIC', 'REDEFINES', 'RENAMES', 'SIGN', 'IS', 'LEADING',
-    'TRAILING', 'SEPARATE', 'CHARACTER', 'SYNCHRONIZED', 'SYNC', 'LEFT',
+    'PICTURE', 'PIC', 'REDEFINES', 'SIGN', 'IS', 'LEADING', 'FILLER',
     'USAGE', 'DISPLAY', 'DISPLAY-ST', 'COMPUTATIONAL', 'COMPUTATIONAL-1',
     'COMPUTATIONAL-2', 'COMPUTATIONAL-3', 'COMP', 'COMP-1', 'COMP-2', 'COMP-3',
-    'INDEX', 'BINARY', 'PACKED-DECIMAL',
+    'INDEX',
 
     # Condition Names
-    'THROUGH', 'THRU', 'TRUE', 'FALSE',
+    'THROUGH', 'THRU',
 
     # Procedure Division Verbs
-    'ACCEPT', 'ADD', 'ALTER', 'CALL', 'CANCEL', 'CLOSE', 'COMPUTE', 'CONTINUE',
-    'DELETE', 'DISPLAY', 'DIVIDE', 'ENTER', 'EVALUATE', 'EXAMINE', 'EXHIBIT',
-    'EXIT', 'GO', 'GOTO', 'IF', 'INITIALIZE', 'INSPECT', 'MERGE', 'MOVE',
-    'MULTIPLY', 'NOTE', 'OPEN', 'PERFORM', 'READ', 'RELEASE', 'RETURN',
-    'REWRITE', 'SEARCH', 'SET', 'SORT', 'START', 'STOP', 'STRING', 'SUBTRACT',
-    'SUPPRESS', 'TERMINATE', 'TRANSFORM', 'UNSTRING', 'USE', 'WRITE',
+    'ACCEPT', 'ADD', 'ALTER', 'CALL', 'CLOSE', 'COMPUTE', 'DISPLAY', 'DIVIDE',
+    'ENTER', 'EXAMINE', 'EXHIBIT', 'EXIT', 'GO', 'IF', 'MOVE', 'MULTIPLY',
+    'NOTE', 'OPEN', 'PERFORM', 'READ', 'RELEASE', 'RETURN', 'SEARCH', 'SET',
+    'SORT', 'STOP', 'SUBTRACT', 'TERMINATE', 'TRANSFORM', 'USE', 'WRITE',
 
     # Procedure Division Keywords
-    'GIVING', 'CORRESPONDING', 'CORR', 'ROUNDED', 'SIZE', 'ERROR', 'ON',
-    'OVERFLOW', 'NOT', 'INTO', 'REMAINDER', 'BY', 'FROM', 'TALLYING',
-    'REPLACING', 'ALL', 'LEADING', 'FIRST', 'INITIAL', 'BEFORE', 'AFTER',
-    'POINTER', 'DELIMITER', 'DELIMITED', 'COUNT', 'CONVERTING', 'WITH',
-    'THEN', 'ELSE', 'END-IF', 'END-PERFORM', 'END-READ', 'END-WRITE',
-    'END-COMPUTE', 'END-ADD', 'END-SUBTRACT', 'END-MULTIPLY', 'END-DIVIDE',
-    'END-CALL', 'END-STRING', 'END-UNSTRING', 'END-EVALUATE', 'END-SEARCH',
-    'VARYING', 'UNTIL', 'TEST', 'ALSO', 'WHEN', 'OTHER', 'TIMES',
-    'INVALID', 'USING', 'RETURNING', 'ADVANCING', 'PAGE', 'LINE', 'LINES',
-    'INPUT', 'OUTPUT', 'I-O', 'EXTEND', 'OPTIONAL', 'REVERSED', 'WITH',
-    'NO', 'REWIND', 'LOCK', 'HOLD', 'RELEASE',
+    'GIVING', 'CORRESPONDING', 'ROUNDED', 'SIZE', 'ERROR', 'ON',
+    'NOT', 'INTO', 'BY', 'FROM', 'TALLYING', 'REPLACING', 'ALL', 'LEADING',
+    'FIRST', 'BEFORE', 'AFTER', 'WITH', 'THEN', 'ELSE', 'VARYING', 'UNTIL',
+    'WHEN', 'OTHERWISE', 'TIMES', 'INVALID', 'USING', 'ADVANCING', 'PAGE',
+    'LINE', 'LINES', 'INPUT', 'OUTPUT', 'I-O', 'REVERSED', 'NO', 'REWIND',
+    'LOCK', 'HOLD',
 
     # Conditional Keywords
-    'EQUAL', 'EQUALS', 'GREATER', 'LESS', 'THAN', 'POSITIVE', 'NEGATIVE',
-    'NUMERIC', 'ALPHABETIC', 'ALPHANUMERIC', 'CLASS', 'AND', 'OR', 'NOT',
+    'EQUAL', 'GREATER', 'LESS', 'THAN', 'POSITIVE', 'NEGATIVE',
+    'NUMERIC', 'ALPHABETIC', 'AND', 'OR', 'NOT',
 
     # Figurative Constants
     'SPACE', 'SPACES', 'ZERO', 'ZEROS', 'ZEROES', 'HIGH-VALUE', 'HIGH-VALUES',
     'LOW-VALUE', 'LOW-VALUES', 'QUOTE', 'QUOTES', 'ALL',
 
-    # Special Registers
-    'TALLY', 'RETURN-CODE', 'DEBUG-ITEM', 'DEBUG-LINE', 'DEBUG-NAME',
-    'DEBUG-SUB-1', 'DEBUG-SUB-2', 'DEBUG-SUB-3', 'DEBUG-CONTENTS',
-    'LINAGE-COUNTER', 'LINE-COUNTER', 'PAGE-COUNTER',
+    # Special Registers (1968)
+    'TALLY', 'LINE-COUNTER', 'PAGE-COUNTER',
 
     # Report Writer
     'CONTROL', 'CONTROLS', 'PAGE', 'LIMIT', 'LIMITS', 'HEADING', 'FIRST',
-    'LAST', 'DETAIL', 'DE', 'FOOTING', 'LINE', 'COLUMN', 'COLUMNS', 'COL',
-    'SOURCE', 'SUM', 'UPON', 'RESET', 'GROUP', 'INDICATE', 'NEXT', 'TYPE',
+    'LAST', 'DETAIL', 'DE', 'FOOTING', 'LINE', 'COLUMN', 'SOURCE', 'SUM',
+    'UPON', 'RESET', 'GROUP', 'INDICATE', 'NEXT', 'TYPE', 'REPORTING',
     'CF', 'CH', 'PF', 'PH', 'RF', 'RH', 'FINAL', 'GENERATE', 'INITIATE',
 
-    # Sort/Merge
-    'SORT', 'MERGE', 'ASCENDING', 'DESCENDING', 'DUPLICATES', 'ORDER',
-    'COLLATING', 'SEQUENCE', 'INPUT', 'OUTPUT', 'PROCEDURE', 'USING',
+    # Sort Feature
+    'SORT', 'ASCENDING', 'DESCENDING', 'INPUT', 'OUTPUT', 'PROCEDURE', 'USING',
 
     # IBM-360 Specific (from C28-6516-8)
-    'IBM-360', 'COPY', 'BASIS', 'INSERT', 'DELETE', 'SYSIN', 'SYSOUT',
-    'SYSPUNCH', 'CONSOLE', 'DISPLAY-ST', 'TRACE', 'READY',
+    'IBM-360', 'COPY', 'SYSIN', 'SYSOUT', 'SYSPUNCH', 'CONSOLE', 'DISPLAY-ST',
+    'TRACE', 'READY', 'PRINT-SWITCH', 'FORM-OVERFLOW',
 
     # Miscellaneous
-    'RUN', 'PROGRAM', 'SEGMENT', 'END', 'FILLER', 'GLOBAL', 'EXTERNAL',
-    'NATIVE', 'STANDARD-1', 'STANDARD-2', 'EBCDIC', 'ASCII'
+    'RUN', 'PROGRAM', 'SEGMENT', 'END', 'FILLER', 'COBOL', 'ID', 'SENTENCE',
+    'CHANGED', 'NAMED', 'PLUS', 'PROCEED', 'PROCESS', 'RESTRICTED',
+    'TRY', 'UTILITY', 'INCLUDE', 'FOR', 'ARE', 'COMMA'
 }
 
-# Documentation for reserved words (from 1968 Language Reference)
+# Documentation for reserved words (from C28-6516-8, 1968 Language Reference)
 RESERVED_WORD_DOCS = {
     'IDENTIFICATION': 'The first of four divisions. Contains program identification.',
     'ENVIRONMENT': 'The second division. Specifies computer equipment and file assignments.',
@@ -134,7 +124,7 @@ RESERVED_WORD_DOCS = {
     'SELECT': 'Associates a file-name with an external data set.',
     'ASSIGN': 'Specifies the device and external name for a file.',
     'ORGANIZATION': 'Specifies file organization: SEQUENTIAL, INDEXED, RELATIVE, or DIRECT.',
-    'ACCESS': 'Specifies access mode: SEQUENTIAL, RANDOM, or DYNAMIC.',
+    'ACCESS': 'Specifies access mode: SEQUENTIAL or RANDOM.',
 
     'FD': 'File Description. Describes characteristics of a data file.',
     'SD': 'Sort Description. Describes a sort work file.',
@@ -168,16 +158,16 @@ RESERVED_WORD_DOCS = {
     'CLOSE': 'Closes a file after processing.',
     'READ': 'Retrieves a record from a file.',
     'WRITE': 'Outputs a record to a file.',
-    'REWRITE': 'Updates an existing record in place.',
 
     'COPY': 'Includes text from a library member at compile time.',
     'TALLY': 'Special register used with EXAMINE statement.',
-    'EXAMINE': 'Counts or replaces characters in a data item.',
+    'EXAMINE': 'Counts or replaces characters in a data item (use TALLYING or REPLACING).',
     'TRANSFORM': 'Converts characters according to translation table.',
 
     'IBM-360': 'Reserved word identifying IBM System/360 computer.',
-    'DISPLAY-ST': 'IBM extension for status display.',
-    'TRACE': 'IBM extension for procedure tracing.'
+    'DISPLAY-ST': 'IBM extension for displaying status information.',
+    'TRACE': 'IBM extension for procedure tracing.',
+    'EXHIBIT': 'IBM extension for displaying data item values during execution.'
 }
 
 
@@ -254,7 +244,7 @@ class COBOL360Parser:
             re.IGNORECASE
         )
         self.usage_pattern = re.compile(
-            r'\bUSAGE\s+(?:IS\s+)?(DISPLAY|COMP(?:UTATIONAL)?(?:-[123])?|INDEX|BINARY|PACKED-DECIMAL)',
+            r'\bUSAGE\s+(?:IS\s+)?(DISPLAY|DISPLAY-ST|COMP(?:UTATIONAL)?(?:-[123])?|INDEX)',
             re.IGNORECASE
         )
         self.value_pattern = re.compile(
