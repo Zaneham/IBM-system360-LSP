@@ -1,0 +1,264 @@
+{
+  "name": "IBM System/360 COBOL F",
+  "scopeName": "source.cobol360",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#sequence-area" },
+    { "include": "#divisions" },
+    { "include": "#sections" },
+    { "include": "#paragraphs" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#level-numbers" },
+    { "include": "#picture-clause" },
+    { "include": "#verbs" },
+    { "include": "#keywords" },
+    { "include": "#intrinsic-functions" },
+    { "include": "#special-registers" },
+    { "include": "#operators" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.asterisk.cobol360",
+          "match": "^.{6}\\*.*$"
+        },
+        {
+          "name": "comment.line.debug.cobol360",
+          "match": "^.{6}[Dd].*$"
+        },
+        {
+          "name": "comment.line.page-eject.cobol360",
+          "match": "^.{6}/.*$"
+        }
+      ]
+    },
+    "sequence-area": {
+      "patterns": [
+        {
+          "name": "comment.line.sequence.cobol360",
+          "match": "^[0-9 ]{6}"
+        }
+      ]
+    },
+    "divisions": {
+      "patterns": [
+        {
+          "name": "keyword.control.division.cobol360",
+          "match": "\\b(IDENTIFICATION|ENVIRONMENT|DATA|PROCEDURE)\\s+DIVISION\\b"
+        }
+      ]
+    },
+    "sections": {
+      "patterns": [
+        {
+          "name": "keyword.control.section.cobol360",
+          "match": "\\b(CONFIGURATION|INPUT-OUTPUT|FILE|WORKING-STORAGE|LINKAGE|REPORT|SCREEN)\\s+SECTION\\b"
+        },
+        {
+          "name": "keyword.control.section.cobol360",
+          "match": "\\b(FILE-CONTROL|I-O-CONTROL|SPECIAL-NAMES)\\b"
+        }
+      ]
+    },
+    "paragraphs": {
+      "patterns": [
+        {
+          "name": "keyword.other.paragraph.cobol360",
+          "match": "\\b(PROGRAM-ID|AUTHOR|INSTALLATION|DATE-WRITTEN|DATE-COMPILED|SECURITY|REMARKS|SOURCE-COMPUTER|OBJECT-COMPUTER)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.cobol360",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.cobol360",
+              "match": "\"\""
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.cobol360",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.cobol360",
+              "match": "''"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.cobol360",
+          "match": "[+-]?\\d+\\.\\d+([Ee][+-]?\\d+)?"
+        },
+        {
+          "name": "constant.numeric.integer.cobol360",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "level-numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.level.cobol360",
+          "match": "^.{6}\\s+(01|1|66|77|88)\\b"
+        },
+        {
+          "name": "constant.numeric.level.cobol360",
+          "match": "^.{6}\\s+(0[2-9]|[1-4][0-9])\\b"
+        }
+      ]
+    },
+    "picture-clause": {
+      "patterns": [
+        {
+          "name": "storage.type.picture.cobol360",
+          "match": "\\b(PIC|PICTURE)\\s+(IS\\s+)?[9XAVSPZBCRDBabcrdb$,.+-/*()]+",
+          "captures": {
+            "1": { "name": "keyword.other.picture.cobol360" }
+          }
+        }
+      ]
+    },
+    "verbs": {
+      "patterns": [
+        {
+          "name": "keyword.control.verb.io.cobol360",
+          "match": "\\b(ACCEPT|CLOSE|DELETE|DISPLAY|EXHIBIT|OPEN|READ|REWRITE|WRITE|USE)\\b"
+        },
+        {
+          "name": "keyword.control.verb.arithmetic.cobol360",
+          "match": "\\b(ADD|COMPUTE|DIVIDE|MULTIPLY|SUBTRACT)\\b"
+        },
+        {
+          "name": "keyword.control.verb.data.cobol360",
+          "match": "\\b(EXAMINE|INSPECT|MOVE|SET|STRING|TRANSFORM|UNSTRING)\\b"
+        },
+        {
+          "name": "keyword.control.verb.flow.cobol360",
+          "match": "\\b(ALTER|CALL|ENTER|EXIT|GO|GOTO|IF|ELSE|PERFORM|STOP|THEN)\\b"
+        },
+        {
+          "name": "keyword.control.verb.procedure.cobol360",
+          "match": "\\b(COPY|NOTE|REPLACE|SEARCH|SORT)\\b"
+        },
+        {
+          "name": "keyword.control.verb.report.cobol360",
+          "match": "\\b(GENERATE|INITIATE|TERMINATE|SUPPRESS)\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.other.division.cobol360",
+          "match": "\\b(DIVISION|SECTION|END)\\b"
+        },
+        {
+          "name": "keyword.other.file.cobol360",
+          "match": "\\b(FD|SD|RD|SELECT|ASSIGN|ORGANIZATION|ACCESS|SEQUENTIAL|RANDOM|DYNAMIC|INDEXED|RELATIVE|DIRECT)\\b"
+        },
+        {
+          "name": "keyword.other.data.cobol360",
+          "match": "\\b(BLOCK|CONTAINS|RECORD|RECORDS|LABEL|STANDARD|OMITTED|RECORDING|MODE|VALUE|VALUES|OF|IN|TO|FROM|BY|THRU|THROUGH|TIMES|UNTIL|VARYING|AFTER|BEFORE)\\b"
+        },
+        {
+          "name": "keyword.other.clause.cobol360",
+          "match": "\\b(ASCENDING|DESCENDING|KEY|DEPENDING|ON|SIZE|ERROR|OVERFLOW|AT|END|NOT|WITH|POINTER|DELIMITER|COUNT|ALL|LEADING|TRAILING|FIRST)\\b"
+        },
+        {
+          "name": "keyword.other.occurs.cobol360",
+          "match": "\\b(OCCURS|REDEFINES|RENAMES|COPY|REPLACING)\\b"
+        },
+        {
+          "name": "storage.type.usage.cobol360",
+          "match": "\\b(USAGE|COMPUTATIONAL|COMPUTATIONAL-1|COMPUTATIONAL-2|COMPUTATIONAL-3|COMP|COMP-1|COMP-2|COMP-3|BINARY|PACKED-DECIMAL|DISPLAY|DISPLAY-ST|INDEX)\\b"
+        },
+        {
+          "name": "storage.type.class.cobol360",
+          "match": "\\b(ALPHABETIC|ALPHANUMERIC|NUMERIC|NUMERIC-EDITED|ALPHANUMERIC-EDITED)\\b"
+        },
+        {
+          "name": "keyword.other.procedure.cobol360",
+          "match": "\\b(GIVING|ROUNDED|REMAINDER|INTO|CORRESPONDING|CORR|TALLYING|REPLACING|CONVERTING|DELIMITED)\\b"
+        },
+        {
+          "name": "keyword.other.condition.cobol360",
+          "match": "\\b(WHEN|OTHER|EQUAL|EQUALS|GREATER|LESS|THAN|POSITIVE|NEGATIVE|ZERO|ZEROS|ZEROES|SPACE|SPACES|HIGH-VALUE|HIGH-VALUES|LOW-VALUE|LOW-VALUES|QUOTE|QUOTES)\\b"
+        },
+        {
+          "name": "keyword.other.file-status.cobol360",
+          "match": "\\b(FILE|STATUS|INVALID|INPUT|OUTPUT|I-O|EXTEND|OPTIONAL)\\b"
+        },
+        {
+          "name": "keyword.other.linkage.cobol360",
+          "match": "\\b(USING|RETURNING|EXTERNAL|GLOBAL)\\b"
+        },
+        {
+          "name": "keyword.other.report.cobol360",
+          "match": "\\b(REPORT|REPORTS|CONTROL|CONTROLS|PAGE|LIMIT|LIMITS|HEADING|FIRST|LAST|DETAIL|FOOTING|LINE|LINES|COLUMN|COLUMNS|SOURCE|SUM|GROUP|INDICATE|NEXT|RESET|TYPE|CF|CH|DE|PF|PH|RF|RH|FINAL)\\b"
+        },
+        {
+          "name": "keyword.other.special.cobol360",
+          "match": "\\b(APPLY|SAME|AREA|AREAS|RESERVE|ALTERNATE|SYMBOLIC|ACTUAL|TRACK-AREA|TRACKS|FILE-LIMIT|RERUN|EVERY|UNIT|REEL|LOCK|HOLD|RELEASE|RETURN|PROCESSING)\\b"
+        },
+        {
+          "name": "constant.language.boolean.cobol360",
+          "match": "\\b(TRUE|FALSE|ON|OFF)\\b"
+        }
+      ]
+    },
+    "intrinsic-functions": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.cobol360",
+          "match": "\\b(CURRENT-DATE|WHEN-COMPILED)\\b"
+        }
+      ]
+    },
+    "special-registers": {
+      "patterns": [
+        {
+          "name": "variable.language.special.cobol360",
+          "match": "\\b(TALLY|DEBUG-ITEM|DEBUG-LINE|DEBUG-NAME|DEBUG-SUB-1|DEBUG-SUB-2|DEBUG-SUB-3|DEBUG-CONTENTS|LINAGE-COUNTER|LINE-COUNTER|PAGE-COUNTER|RETURN-CODE)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.cobol360",
+          "match": "\\*\\*|\\*|/|\\+|-"
+        },
+        {
+          "name": "keyword.operator.comparison.cobol360",
+          "match": "<=|>=|<|>|="
+        },
+        {
+          "name": "keyword.operator.logical.cobol360",
+          "match": "\\b(AND|OR|NOT)\\b"
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.other.cobol360",
+          "match": "\\b[A-Za-z][A-Za-z0-9-]*\\b"
+        }
+      ]
+    }
+  }
+}

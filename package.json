@@ -1,0 +1,113 @@
+{
+  "name": "os360-cobol-lsp",
+  "displayName": "IBM System/360 COBOL F (1968)",
+  "description": "Language Server Protocol support for IBM System/360 COBOL F - the language that survived the Y2K scare and is still running your bank",
+  "version": "1.0.0",
+  "author": "Zane Hambly",
+  "license": "Apache-2.0",
+  "publisher": "ZaneHambly",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zaneham/os360-cobol-lsp"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "keywords": [
+    "cobol",
+    "cobol-f",
+    "ibm",
+    "system/360",
+    "os/360",
+    "mainframe",
+    "legacy",
+    "banking",
+    "financial",
+    "1968"
+  ],
+  "activationEvents": [
+    "onLanguage:cobol360"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "cobol360",
+        "aliases": [
+          "COBOL F",
+          "COBOL-F",
+          "OS/360 COBOL",
+          "IBM COBOL",
+          "cobol360"
+        ],
+        "extensions": [
+          ".cob",
+          ".cbl",
+          ".cobol",
+          ".cpy"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cobol360",
+        "scopeName": "source.cobol360",
+        "path": "./syntaxes/cobol360.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "IBM System/360 COBOL F",
+      "properties": {
+        "cobol360.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Path to Python interpreter for LSP server"
+        },
+        "cobol360.serverPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to cobol360_lsp_server.py (leave empty to use bundled)"
+        },
+        "cobol360.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces communication between VS Code and the COBOL F language server"
+        },
+        "cobol360.marginA": {
+          "type": "number",
+          "default": 8,
+          "description": "Column where Margin A begins (division names, section names)"
+        },
+        "cobol360.marginB": {
+          "type": "number",
+          "default": 12,
+          "description": "Column where Margin B begins (statements)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.0.0"
+  }
+}

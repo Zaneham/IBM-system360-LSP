@@ -1,0 +1,23 @@
+# Source files (compiled to out/)
+src/**
+*.ts
+!out/**
+
+# Documentation (for reference, not needed in extension)
+docs/**
+
+# Development files
+.git/**
+.gitignore
+tsconfig.json
+*.log
+
+# Test files
+.vscode-test/**
+*.test.ts
+
+# Package files
+*.vsix
+
+# Examples are optional but nice to include
+# examples/**
