@@ -61,7 +61,7 @@ The banks responded by purchasing IBM System/360 computers. They wrote their cor
 
 And then... they kept working.
 
-The Bank of New Zealand's Core Ledger system, first deployed on hardware purchased in 1965, continued running. The IBIS modernisation project in the 1980s attempted to replace it; the project failed spectacularly, costing hundreds of millions of dollars. The old system kept running.
+The Bank of New Zealand's Core Ledger system, first deployed on hardware purchased in 1965, continued running. The IBIS modernisation project in the 1980s attempted to replace it; the project failed spectacularly, costing hundreds of millions of dollars. The old system kept running. Most banks have similar stories.
 
 In the 1990s, Y2K remediation consultants examined the code. They made the necessary changes. The system kept running.
 
