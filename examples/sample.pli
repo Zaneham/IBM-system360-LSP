@@ -1,0 +1,119 @@
+/* ============================================================== */
+/* IBM SYSTEM/360 PL/I F EXAMPLE                                  */
+/* CURRENCY DECIMALIZATION SYSTEM                                  */
+/* WELLINGTON, NEW ZEALAND - JULY 1967                            */
+/* ============================================================== */
+
+DECIMALIZE: PROCEDURE OPTIONS(MAIN);
+
+    /* ---------------------------------------------------------- */
+    /* DECLARATIONS                                                */
+    /* ---------------------------------------------------------- */
+
+    /* CONVERSION RATE: 1 NZ POUND = 2 NZ DOLLARS */
+    DCL CONVERSION_RATE FIXED DECIMAL(7,6) INIT(2.000000);
+
+    /* CUSTOMER RECORD STRUCTURE */
+    DCL 1 CUSTOMER_RECORD,
+          2 CUST_NUMBER     CHAR(8),
+          2 CUST_NAME       CHAR(30),
+          2 CUST_ADDRESS    CHAR(40),
+          2 BALANCE_POUNDS  FIXED DECIMAL(9,2),
+          2 BALANCE_DOLLARS FIXED DECIMAL(11,2),
+          2 STATUS          CHAR(1);
+
+    /* WORKING VARIABLES */
+    DCL RECORD_COUNT    FIXED BINARY(31) INIT(0);
+    DCL ERROR_COUNT     FIXED BINARY(31) INIT(0);
+    DCL TOTAL_POUNDS    FIXED DECIMAL(15,2) INIT(0);
+    DCL TOTAL_DOLLARS   FIXED DECIMAL(15,2) INIT(0);
+    DCL EOF_FLAG        BIT(1) INIT('0'B);
+
+    /* FILE DECLARATIONS */
+    DCL CUSTOMER_FILE   FILE RECORD INPUT;
+    DCL REPORT_FILE     FILE STREAM OUTPUT PRINT;
+    DCL SYSPRINT        FILE STREAM OUTPUT PRINT;
+
+    /* ---------------------------------------------------------- */
+    /* EXCEPTION HANDLERS                                          */
+    /* ---------------------------------------------------------- */
+
+    ON ENDFILE(CUSTOMER_FILE)
+        EOF_FLAG = '1'B;
+
+    ON CONVERSION
+        BEGIN;
+            ERROR_COUNT = ERROR_COUNT + 1;
+            PUT SKIP LIST('*** CONVERSION ERROR ON RECORD:',
+                          CUST_NUMBER);
+        END;
+
+    ON OVERFLOW
+        BEGIN;
+            PUT SKIP LIST('*** ARITHMETIC OVERFLOW');
+            SIGNAL ERROR;
+        END;
+
+    /* ---------------------------------------------------------- */
+    /* MAIN PROCESSING                                             */
+    /* ---------------------------------------------------------- */
+
+    PUT SKIP LIST('========================================');
+    PUT SKIP LIST('  NZ CURRENCY DECIMALIZATION SYSTEM');
+    PUT SKIP LIST('  D-DAY: 10 JULY 1967');
+    PUT SKIP LIST('========================================');
+    PUT SKIP;
+
+    CALL INITIALIZE;
+    CALL PROCESS_CUSTOMERS;
+    CALL PRINT_TOTALS;
+
+    PUT SKIP LIST('PROCESSING COMPLETE');
+    PUT SKIP LIST('RECORDS PROCESSED:', RECORD_COUNT);
+    PUT SKIP LIST('ERRORS ENCOUNTERED:', ERROR_COUNT);
+
+/* ============================================================== */
+/* SUBROUTINES                                                     */
+/* ============================================================== */
+
+INITIALIZE: PROCEDURE;
+    OPEN FILE(CUSTOMER_FILE);
+    PUT SKIP LIST('CUSTOMER FILE OPENED');
+END INITIALIZE;
+
+PROCESS_CUSTOMERS: PROCEDURE;
+    DO WHILE (^EOF_FLAG);
+        READ FILE(CUSTOMER_FILE) INTO(CUSTOMER_RECORD);
+
+        IF ^EOF_FLAG THEN
+            DO;
+                RECORD_COUNT = RECORD_COUNT + 1;
+
+                /* CONVERT POUNDS TO DOLLARS */
+                BALANCE_DOLLARS = BALANCE_POUNDS * CONVERSION_RATE;
+
+                /* ACCUMULATE TOTALS */
+                TOTAL_POUNDS = TOTAL_POUNDS + BALANCE_POUNDS;
+                TOTAL_DOLLARS = TOTAL_DOLLARS + BALANCE_DOLLARS;
+
+                /* DISPLAY PROGRESS EVERY 1000 RECORDS */
+                IF MOD(RECORD_COUNT, 1000) = 0 THEN
+                    PUT SKIP LIST('PROCESSED:', RECORD_COUNT, 'RECORDS');
+            END;
+    END;
+
+    CLOSE FILE(CUSTOMER_FILE);
+END PROCESS_CUSTOMERS;
+
+PRINT_TOTALS: PROCEDURE;
+    PUT SKIP;
+    PUT SKIP LIST('----------------------------------------');
+    PUT SKIP LIST('CONVERSION SUMMARY');
+    PUT SKIP LIST('----------------------------------------');
+    PUT SKIP LIST('TOTAL POUNDS:  ', TOTAL_POUNDS);
+    PUT SKIP LIST('TOTAL DOLLARS: ', TOTAL_DOLLARS);
+    PUT SKIP LIST('CONVERSION RATE:', CONVERSION_RATE);
+    PUT SKIP LIST('----------------------------------------');
+END PRINT_TOTALS;
+
+END DECIMALIZE;

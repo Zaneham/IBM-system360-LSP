@@ -1,14 +1,14 @@
 {
-  "name": "os360-cobol-lsp",
-  "displayName": "IBM System/360 COBOL F (1968)",
-  "description": "Language Server Protocol support for IBM System/360 COBOL F - the language that survived the Y2K scare and is still running your bank",
+  "name": "ibm-system360-languages",
+  "displayName": "IBM System/360 Languages",
+  "description": "COBOL F and PL/I F for IBM System/360 - the languages still running banks, hospitals, and governments since 1965",
   "version": "1.0.0",
   "author": "Zane Hambly",
   "license": "Apache-2.0",
   "publisher": "ZaneHambly",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Zaneham/os360-cobol-lsp"
+    "url": "https://github.com/Zaneham/ibm-system360-lsp"
   },
   "engines": {
     "vscode": "^1.75.0"
@@ -20,6 +20,9 @@
   "keywords": [
     "cobol",
     "cobol-f",
+    "pli",
+    "pl/i",
+    "pl1",
     "ibm",
     "system/360",
     "os/360",
@@ -27,10 +30,12 @@
     "legacy",
     "banking",
     "financial",
+    "1965",
     "1968"
   ],
   "activationEvents": [
-    "onLanguage:cobol360"
+    "onLanguage:cobol360",
+    "onLanguage:pli360"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -50,7 +55,25 @@
           ".cobol",
           ".cpy"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./cobol-language-configuration.json"
+      },
+      {
+        "id": "pli360",
+        "aliases": [
+          "PL/I F",
+          "PL/I",
+          "PLI",
+          "PL1",
+          "OS/360 PL/I",
+          "pli360"
+        ],
+        "extensions": [
+          ".pli",
+          ".pl1",
+          ".plinc",
+          ".inc"
+        ],
+        "configuration": "./pli-language-configuration.json"
       }
     ],
     "grammars": [
@@ -58,23 +81,28 @@
         "language": "cobol360",
         "scopeName": "source.cobol360",
         "path": "./syntaxes/cobol360.tmLanguage.json"
+      },
+      {
+        "language": "pli360",
+        "scopeName": "source.pli360",
+        "path": "./syntaxes/pli360.tmLanguage.json"
       }
     ],
     "configuration": {
       "type": "object",
-      "title": "IBM System/360 COBOL F",
+      "title": "IBM System/360 Languages",
       "properties": {
-        "cobol360.pythonPath": {
+        "system360.pythonPath": {
           "type": "string",
           "default": "python",
           "description": "Path to Python interpreter for LSP server"
         },
-        "cobol360.serverPath": {
+        "system360.serverPath": {
           "type": "string",
           "default": "",
-          "description": "Path to cobol360_lsp_server.py (leave empty to use bundled)"
+          "description": "Path to system360_lsp_server.py (leave empty to use bundled)"
         },
-        "cobol360.trace.server": {
+        "system360.trace.server": {
           "type": "string",
           "enum": [
             "off",
@@ -82,17 +110,7 @@
             "verbose"
           ],
           "default": "off",
-          "description": "Traces communication between VS Code and the COBOL F language server"
-        },
-        "cobol360.marginA": {
-          "type": "number",
-          "default": 8,
-          "description": "Column where Margin A begins (division names, section names)"
-        },
-        "cobol360.marginB": {
-          "type": "number",
-          "default": 12,
-          "description": "Column where Margin B begins (statements)"
+          "description": "Traces communication between VS Code and the language server"
         }
       }
     }

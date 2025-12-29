@@ -11,14 +11,14 @@ let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
     // Get Python path from configuration
-    const config = workspace.getConfiguration('cobol360');
+    const config = workspace.getConfiguration('system360');
     const pythonPath = config.get<string>('pythonPath', 'python');
 
     // Get server path - use bundled if not specified
     let serverPath = config.get<string>('serverPath', '');
     if (!serverPath) {
         serverPath = context.asAbsolutePath(
-            path.join('server', 'cobol360_lsp_server.py')
+            path.join('server', 'system360_lsp_server.py')
         );
     }
 
@@ -36,20 +36,21 @@ export function activate(context: ExtensionContext) {
         }
     };
 
-    // Client options
+    // Client options - support both COBOL F and PL/I F
     const clientOptions: LanguageClientOptions = {
         documentSelector: [
-            { scheme: 'file', language: 'cobol360' }
+            { scheme: 'file', language: 'cobol360' },
+            { scheme: 'file', language: 'pli360' }
         ],
         synchronize: {
-            fileEvents: workspace.createFileSystemWatcher('**/*.{cob,cbl,cobol,cpy}')
+            fileEvents: workspace.createFileSystemWatcher('**/*.{cob,cbl,cobol,cpy,pli,pl1,plinc,inc}')
         }
     };
 
     // Create and start the client
     client = new LanguageClient(
-        'cobol360',
-        'IBM System/360 COBOL F Language Server',
+        'system360',
+        'IBM System/360 Languages Server',
         serverOptions,
         clientOptions
     );

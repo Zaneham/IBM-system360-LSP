@@ -1,0 +1,28 @@
+{
+  "comments": {
+    "blockComment": ["/*", "*/"]
+  },
+  "brackets": [
+    ["(", ")"],
+    ["DO", "END"],
+    ["BEGIN", "END"],
+    ["PROC", "END"],
+    ["PROCEDURE", "END"]
+  ],
+  "autoClosingPairs": [
+    { "open": "(", "close": ")" },
+    { "open": "'", "close": "'" },
+    { "open": "/*", "close": "*/" }
+  ],
+  "surroundingPairs": [
+    ["(", ")"],
+    ["'", "'"]
+  ],
+  "folding": {
+    "markers": {
+      "start": "^.*\\b(PROCEDURE|PROC|BEGIN|DO)\\b.*$",
+      "end": "^.*\\bEND\\b.*$"
+    }
+  },
+  "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)"
+}
