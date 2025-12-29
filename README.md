@@ -230,10 +230,11 @@ All documentation preserved by bitsavers.org, without whom vast portions of comp
 
 ## Known Limitations
 
-- COBOL Report Writer parsing is simplified
-- PL/I compile-time facilities (% statements) are not processed
-- Some vendor-specific extensions may not be recognised
+- COBOL Report Writer parsing is simplified (it was complicated in 1968; it remains complicated now)
+- PL/I compile-time facilities (% statements) are not processed (metaprogramming was a mistake and we all know it)
+- Some vendor-specific extensions may not be recognised (every mainframe shop had its own ideas)
 - The parser handles OS/360 dialects; later dialects (VS COBOL II, Enterprise COBOL, Enterprise PL/I) have additional features
+- Cannot actually run your code. That's what the mainframe is for. It's fine. It's been fine since 1965.
 
 ## The Programmers
 
@@ -280,9 +281,13 @@ If you've found yourself oddly moved by the thought of code that has been runnin
 
 ## Contact
 
-Questions? Found an issue? Currently maintaining a System/360 codebase and need someone to understand what you're going through?
+Questions? Found an issue? Currently maintaining a System/360 codebase and need someone who understands that your production system predates the existence of most programming languages?
 
-zanehambly@gmail.com - Response time faster than a batch job on a lightly loaded 360. Available for consultations about legacy systems, historical computing, and the peculiar satisfaction of maintaining code that is older than most programmers.
+zanehambly@gmail.com
+
+Response time faster than a batch job on a lightly loaded 360. Available for consultations and/or a cuppa tea. Will discuss COBOL over biscuits. Can explain why your PL/I code does that thing it does. Speaks fluent hexadecimal dump. Has opinions about GOTO that may differ from yours but will keep them to himself if you're buying.
+
+Timezone: New Zealand (UTC+12/+13), which means I'm already living in your tomorrow. The future looks fine. Your legacy code is still running.
 
 ## Acknowledgements
 
