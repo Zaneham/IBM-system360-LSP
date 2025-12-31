@@ -1,5 +1,7 @@
 # IBM System/360 Languages for Visual Studio Code
 
+[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/ZaneHambly.ibm-system360-languages?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=ZaneHambly.ibm-system360-languages)
+
 Language Server Protocol implementation for **IBM System/360 Operating System COBOL F** (1968) and **PL/I F** (1965), the programming languages that have been quietly running civilisation since before humans walked on the Moon.
 
 ## The Machine That Changed Everything
