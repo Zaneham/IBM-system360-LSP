@@ -14,7 +14,7 @@ IBM bet the company—literally, $5 billion in 1960s dollars—on a radical idea
 
 They were right. Within two years, IBM had orders for over 1,000 systems. Within a decade, the 360 architecture dominated business computing worldwide. Today, sixty years later, the direct descendants of the 360, the z/Series mainframes, still process the majority of the world's corporate data.
 
-The 360 didn't just change computing. It changed what was possible. Banks could offer instant account enquiries. Airlines could confirm reservations in seconds. Governments could process millions of tax returns. Hospitals could track patient records across departments.
+Banks could offer instant account enquiries. Airlines could confirm reservations in seconds. Governments could process millions of tax returns. Hospitals could track patient records across departments.
 
 The software that made all of this possible was written in two languages: COBOL and PL/I.
 
